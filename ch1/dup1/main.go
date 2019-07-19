@@ -17,8 +17,10 @@ import (
 func main() {
 	counts := make(map[string]int)
 	input := bufio.NewScanner(os.Stdin)
-	for input.Scan() {
+	for input.Scan() == true {
 		counts[input.Text()]++
+		//line := input.Text()
+		//counts[line] = counts[line] + 1
 	}
 	// NOTE: ignoring potential errors from input.Err()
 	for line, n := range counts {
