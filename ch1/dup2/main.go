@@ -16,10 +16,11 @@ import (
 
 func main() {
 	counts := make(map[string]int)
-	files := os.Args[0:]
+	files := os.Args[1:]
 	if len(files) == 0 {
 		countLines(os.Stdin, counts)
 	} else {
+		fmt.Printf("%s\n", files)
 		for _, arg := range files {
 			f, err := os.Open(arg)
 			//os.Open 函数返回两个值。第一个值是被打开的文件( *os.File ），其后被 Scanner 读取。第二个值是内置 error 类型的值。
@@ -35,7 +36,6 @@ func main() {
 	for line, n := range counts {
 		if n > 1 {
 			fmt.Printf("%d\t%s\n", n, line)
-			fmt.Printf("%s\n",files)
 		}
 	}
 }
@@ -45,6 +45,10 @@ func countLines(f *os.File, counts map[string]int) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		counts[input.Text()]++
+		//读到 #end，停止从控制台输入
+		if input.Text() == "#end" {
+			break
+		}
 	}
 	// NOTE: ignoring potential errors from input.Err()
 }
