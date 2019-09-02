@@ -18,12 +18,15 @@ import (
 
 func main() {
 	counts := make(map[string]int)
-	for _, filename := range os.Args[1:] {
+	//简化：由于 ReadFile 函数需要文件名作为参数，因此只读指定文件，不读标准输入
+	for _, filename := range os.Args[0:] {
 		data, err := ioutil.ReadFile(filename)
+		fmt.Printf("%s\n", os.Args[0:])
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "dup3: %v\n", err)
 			continue
 		}
+		//简化：由于行计数代码只在一处用到，故将其移回	 main 函数
 		for _, line := range strings.Split(string(data), "\n") {
 			counts[line]++
 		}

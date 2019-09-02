@@ -28,7 +28,7 @@ import (
 
 //!+main
 
-var palette = []color.Color{color.White, color.Black}
+var palette = []color.Color{color.RGBA{0x00, 0xff, 0x00, 0xff}, color.Black}
 
 const (
 	whiteIndex = 0 // first color in palette
@@ -37,8 +37,9 @@ const (
 
 func main() {
 	//!-main
-	// The sequence of images is deterministic unless we seed
-	// the pseudo-random number generator using the current time.
+	/* The sequence of images is deterministic unless we seed
+	the pseudo-random number generator using the current time.
+	*/
 	// Thanks to Randall McPherson for pointing out the omission.
 	rand.Seed(time.Now().UTC().UnixNano())
 
