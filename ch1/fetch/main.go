@@ -33,11 +33,14 @@ func main() {
 		//	fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
 		//	os.Exit(1)
 		//}
+
+		//拷贝响应结构体到os.Stdout，避免申请一个缓冲区
 		b, err := io.Copy(os.Stdout, resp.Body)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
 			os.Exit(1)
 		}
+		fmt.Println(resp.Status)
 		fmt.Printf("%s", b)
 	}
 }
