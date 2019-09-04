@@ -15,15 +15,29 @@ import (
 	"os"
 	"time"
 )
+/*
+Program arguments:
+https://godoc.org
+https://golang.org
+http://gopl.io
+https://bing.com
+ */
 
 func main() {
 	start := time.Now()
-	ch := make(chan string)
+	//ch := make(chan string)
+	ch1 := make(chan string)
+	ch2 := make(chan string)
 	for _, url := range os.Args[1:] {
-		go fetch(url, ch) // start a goroutine
+		//go fetch(url, ch) // start a goroutine
+		go fetch(url, ch1) // start a goroutine
+		go fetch(url, ch2) // start a goroutine
 	}
 	for range os.Args[1:] {
-		fmt.Println(<-ch) // receive from channel ch
+		//fmt.Println(<-ch) // receive from channel ch
+		fmt.Println(<-ch1) // receive from channel ch
+		fmt.Println(<-ch2) // receive from channel ch
+		fmt.Println("-------------------------------")
 	}
 	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
 }
@@ -36,6 +50,7 @@ func fetch(url string, ch chan<- string) {
 		return
 	}
 
+	//只获取Body内容的字节数，其余拷贝到“垃圾桶”中
 	nbytes, err := io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close() // don't leak resources
 	if err != nil {
